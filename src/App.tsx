@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider as ReduxtProvider } from "react-redux";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { createStore as reduxCreateStore } from "redux";
+import "./App.css";
+import reduxReducer from "./global/redux";
+import { Home } from "./pages/Home";
+import { Mobx } from "./pages/Mobx";
+import { Recoil } from "./pages/Recoil";
+import { Redux } from "./pages/Redux";
 
-function App() {
+export const App = () => {
+  const reduxStore = reduxCreateStore(reduxReducer);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ReduxtProvider store={reduxStore}>
+        <div>
+          <Link to="/">Home Page</Link>
+          <Link to="/redux">Redux Page</Link>
+          <Link to="/mobx">Mobx Page</Link>
+          <Link to="/recoil">Recoil Page</Link>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/redux" element={<Redux />} />
+            <Route path="/mobx" element={<Mobx />} />
+            <Route path="/recoil" element={<Recoil />} />
+          </Routes>
+        </div>
+      </ReduxtProvider>
+    </BrowserRouter>
   );
-}
-
-export default App;
+};
