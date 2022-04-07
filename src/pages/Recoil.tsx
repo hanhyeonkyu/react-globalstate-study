@@ -9,7 +9,7 @@ export const Recoil = () => {
   };
   return (
     <>
-      <h3>Recoil</h3>
+      <h2>Recoil</h2>
       <h5>{recoilText}</h5>
       <h5>{recoilValue}</h5>
       <input type="text" value={recoilText} onChange={handleRecoilText} />

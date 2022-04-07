@@ -4,6 +4,10 @@ import {
   useSelector as reduxSelector,
 } from "react-redux";
 import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  useDispatch as contextDispatch,
+  useGState as contextState,
+} from "../global/context";
 import observableTodoStore from "../global/mobx";
 import { atomText, reportAtomText } from "../global/recoil";
 import { RootState as reduxRootState } from "../global/redux";
@@ -18,6 +22,8 @@ export const Home = () => {
   const [reduxIncBy, setReduxIncBy] = React.useState(0);
   const [recoilText, setRecoilText] = useRecoilState(atomText);
   const recoilValue = useRecoilValue(reportAtomText);
+  const ctxState = contextState();
+  const ctxDispatch = contextDispatch();
   const reduxCnt = reduxSelector(
     (state: reduxRootState) => state.counter.count
   );
@@ -44,6 +50,18 @@ export const Home = () => {
   };
   const handleRecoilText = (e: any) => {
     setRecoilText(e.target.value);
+  };
+  const contextIncrease = () => {
+    ctxDispatch({
+      type: "PLUS_COUNTER",
+      counter: ctxState.counter,
+    });
+  };
+  const contextDecrease = () => {
+    ctxDispatch({
+      type: "MINUS_COUNTER",
+      counter: ctxState.counter,
+    });
   };
   return (
     <div className="home">
@@ -74,10 +92,17 @@ export const Home = () => {
         </div>
         <hr />
         <div>
-          <h3>Recoil</h3>
+          <h2>Recoil</h2>
           <h5>{recoilText}</h5>
           <h5>{recoilValue}</h5>
           <input type="text" value={recoilText} onChange={handleRecoilText} />
+        </div>
+        <hr />
+        <div>
+          <h2>Context</h2>
+          <h5>{ctxState.counter}</h5>
+          <button onClick={contextIncrease}>context plus</button>
+          <button onClick={contextDecrease}>context minus</button>
         </div>
       </div>
     </div>
