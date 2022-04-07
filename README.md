@@ -3,4 +3,4 @@
 ### Complete
 - [x] Redux
 - [x] Mobx
-- [ ] Recoil
+- [x] Recoil

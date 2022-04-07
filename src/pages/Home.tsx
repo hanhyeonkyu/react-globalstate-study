@@ -3,7 +3,9 @@ import {
   useDispatch as reduxDispatch,
   useSelector as reduxSelector,
 } from "react-redux";
+import { useRecoilState, useRecoilValue } from "recoil";
 import observableTodoStore from "../global/mobx";
+import { atomText, reportAtomText } from "../global/recoil";
 import { RootState as reduxRootState } from "../global/redux";
 import {
   decrease as rdxDec,
@@ -14,6 +16,8 @@ import {
 export const Home = () => {
   const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
   const [reduxIncBy, setReduxIncBy] = React.useState(0);
+  const [recoilText, setRecoilText] = useRecoilState(atomText);
+  const recoilValue = useRecoilValue(reportAtomText);
   const reduxCnt = reduxSelector(
     (state: reduxRootState) => state.counter.count
   );
@@ -38,9 +42,12 @@ export const Home = () => {
     observableTodoStore.minus();
     forceUpdate();
   };
+  const handleRecoilText = (e: any) => {
+    setRecoilText(e.target.value);
+  };
   return (
     <div className="home">
-      <h2>Use Global State</h2>
+      <h1>Use Global State</h1>
       <div>
         <div>
           <h2>Redux</h2>
@@ -68,8 +75,9 @@ export const Home = () => {
         <hr />
         <div>
           <h3>Recoil</h3>
-          <h5>recoil: {0}</h5>
-          <button>recoil plus</button>
+          <h5>{recoilText}</h5>
+          <h5>{recoilValue}</h5>
+          <input type="text" value={recoilText} onChange={handleRecoilText} />
         </div>
       </div>
     </div>
