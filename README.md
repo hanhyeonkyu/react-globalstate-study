@@ -2,5 +2,5 @@
 
 ### Complete
 - [x] Redux
-- [ ] Mobx
+- [x] Mobx
 - [ ] Recoil
